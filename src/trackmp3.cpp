@@ -472,9 +472,9 @@ void TrackMp3::storeBPM ( string format ) {
         cerr << "BPM not saved !" << endl;
         return;
     }
-    tag->removeFrames ("TBPM");                   // remove existing BPM frames
+    tag->removeFrames ("BPM");                   // remove existing BPM frames
     TagLib::ID3v2::TextIdentificationFrame* bpmframe =
-        new TagLib::ID3v2::TextIdentificationFrame ("TBPM", TagLib::String::Latin1);
+        new TagLib::ID3v2::TextIdentificationFrame ("BPM", TagLib::String::Latin1);
     bpmframe->setText (sBPM.c_str() );
     tag->addFrame (bpmframe);                     // add new BPM frame
     f.save();                                     // save file
@@ -502,7 +502,7 @@ void TrackMp3::readTags() {
         setArtist (tag->artist().toCString() );
         setTitle (tag->title().toCString() );
 
-        TagLib::List<TagLib::ID3v2::Frame*> lst = tag->frameList ("TBPM");
+        TagLib::List<TagLib::ID3v2::Frame*> lst = tag->frameList ("BPM");
         if (lst.size() > 0) {
             TagLib::ID3v2::Frame* frame = lst[0];
             sbpm = frame->toString().toCString();
@@ -541,7 +541,7 @@ void TrackMp3::removeBPM() {
     if (tag == NULL) {
         return;
     }
-    tag->removeFrames ("TBPM");
+    tag->removeFrames ("BPM");
     f.save();
 #endif
 }

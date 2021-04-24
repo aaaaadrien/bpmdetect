@@ -307,10 +307,10 @@ void TrackWav::storeBPM( string format ) {
     long offset = f.rfind("ID3", TagLib::File::End);
     if(offset < 0) offset = f.length();           // ID3 tag offset
     TagLib::ID3v2::Tag tag(&f, offset);
-    tag.removeFrames("TBPM");                     // remove existing BPM frames
+    tag.removeFrames("BPM");                     // remove existing BPM frames
 
     TagLib::ID3v2::TextIdentificationFrame* bpmframe =
-        new TagLib::ID3v2::TextIdentificationFrame("TBPM", TagLib::String::Latin1);
+        new TagLib::ID3v2::TextIdentificationFrame("BPM", TagLib::String::Latin1);
     bpmframe->setText(sBPM.c_str());
     tag.addFrame(bpmframe);                       // add new BPM frame
 
@@ -336,7 +336,7 @@ void TrackWav::readTags() {
       setArtist(tag.artist().toCString());
       setTitle(tag.title().toCString());
 
-      TagLib::List<TagLib::ID3v2::Frame*> lst = tag.frameList("TBPM");
+      TagLib::List<TagLib::ID3v2::Frame*> lst = tag.frameList("BPM");
       if(lst.size() > 0) {
         TagLib::ID3v2::Frame* frame = lst[0];
         sbpm = frame->toString().toCString();

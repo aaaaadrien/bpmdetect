@@ -189,7 +189,7 @@ void TrackOggVorbis::storeBPM( string format ) {
         cerr << "BPM not saved ! (failed)" << endl;
         return;
     }
-    tag->addField("TBPM", sBPM.c_str(), true);    // add new BPM field (replace existing)
+    tag->addField("BPM", sBPM.c_str(), true);    // add new BPM field (replace existing)
     f.save();
 #endif
 }
@@ -204,7 +204,7 @@ void TrackOggVorbis::readTags() {
         setArtist(tag->artist().toCString());
         setTitle(tag->title().toCString());
         TagLib::Ogg::FieldListMap flmap = tag->fieldListMap();
-        TagLib::StringList strl = flmap["TBPM"];
+        TagLib::StringList strl = flmap["BPM"];
         if (!strl.isEmpty()) sbpm = strl[0].toCString();
     }
 #endif
@@ -223,7 +223,7 @@ void TrackOggVorbis::removeBPM() {
     if (tag == NULL) {
         return;
     }
-    tag->removeField("TBPM");
+    tag->removeField("BPM");
     f.save();
     //open();
 #endif

@@ -183,14 +183,14 @@ void TrackFlac::storeBPM ( string format ) {
     TagLib::FLAC::File f ( fname.c_str(), false );
     TagLib::Ogg::XiphComment* xiph = f.xiphComment (true);
     if (xiph != NULL) {
-        xiph->addField ("TBPM", sBPM.c_str(), true); // add new BPM field (replace existing)
+        xiph->addField ("BPM", sBPM.c_str(), true); // add new BPM field (replace existing)
     }
     /*
       TagLib::ID3v2::Tag* tag = f.ID3v2Tag (true);
       if (tag != NULL) {
-        tag->removeFrames ("TBPM");                 // remove existing BPM frames
+        tag->removeFrames ("BPM");                 // remove existing BPM frames
         TagLib::ID3v2::TextIdentificationFrame* bpmframe =
-          new TagLib::ID3v2::TextIdentificationFrame ("TBPM", TagLib::String::Latin1);
+          new TagLib::ID3v2::TextIdentificationFrame ("BPM", TagLib::String::Latin1);
         bpmframe->setText (sBPM.c_str() );
         tag->addFrame (bpmframe);                   // add new BPM frame
       }
@@ -213,12 +213,12 @@ void TrackFlac::readTags() {
     TagLib::Ogg::XiphComment* xiph = f.xiphComment (true);
     if (xiph != NULL) {
         TagLib::Ogg::FieldListMap flmap = xiph->fieldListMap();
-        TagLib::StringList strl = flmap["TBPM"];
+        TagLib::StringList strl = flmap["BPM"];
         if (!strl.isEmpty() ) sbpm = strl[0].toCString();
         else {
             TagLib::ID3v2::Tag* tag = f.ID3v2Tag (true);
             if (tag != NULL) {
-                TagLib::List<TagLib::ID3v2::Frame*> lst = tag->frameList ("TBPM");
+                TagLib::List<TagLib::ID3v2::Frame*> lst = tag->frameList ("BPM");
                 if (lst.size() > 0) {
                     TagLib::ID3v2::Frame* frame = lst[0];
                     sbpm = frame->toString().toCString();
@@ -239,12 +239,12 @@ void TrackFlac::removeBPM() {
     TagLib::FLAC::File f ( fname.c_str(), false );
     TagLib::Ogg::XiphComment* xiph = f.xiphComment (true);
     if (xiph != NULL) {
-        xiph->removeField ("TBPM");
+        xiph->removeField ("BPM");
     }
 
     TagLib::ID3v2::Tag* tag = f.ID3v2Tag (true);
     if (tag != NULL) {
-        tag->removeFrames ("TBPM");
+        tag->removeFrames ("BPM");
     }
 
     f.save();
